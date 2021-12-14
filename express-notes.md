@@ -107,3 +107,47 @@ A template for the information stored by a database. If a library was a database
 - Delete: the ability to remove existing data from the database.
 
   - e.g. the ability to delete a patron entry.
+
+## What does `express.Router()` do? How is it different from the server.js `express()` invocation?
+
+- It creates a mini app that is modular and you can export for use in the main express app.
+
+### Using parameters in routes
+
+#### Single Param
+
+##### How do you designate a route to use a single parameter?
+
+If the parameter you want to name is called `quantity`, then you can define it and call upon it like so:
+
+```js
+fruitsRouter.get("/newFruit/:quantity", (req, res) => {
+  res.send(`Buy ${req.params.quantity} fruits.`);
+});
+```
+
+##### Does slash route order for parameter?
+
+Are these two routes the same?
+
+```js
+fruitsRouter.get("/newFruit/:quantity/:fruitName", (req, res) => {
+  res.send(`Buy ${req.params.quantity} of ${req.params.fruitName}.`);
+});
+```
+
+```js
+fruitsRouter.get("/newFruit/:fruitName/:quantity", (req, res) => {
+  res.send(`Buy ${req.params.quantity} of ${req.params.fruitName}.`);
+});
+```
+
+##### Can you separate parameters in a route?
+
+```js
+fruitsRouter.get("/:quantity/someRoute/:fruitName", (req, res) => {
+  res.send(`Buy ${req.params.quantity} of ${req.params.fruitName}.`);
+});
+```
+
+## `.param()`, parameter based middleware

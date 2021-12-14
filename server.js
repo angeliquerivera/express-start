@@ -4,7 +4,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = process.env.EXPRESS_PORT || 3000; //process.env stores enviroment variables using .env package. .env file reads
+const port = process.env.EXPRESS_PORT || 3000; //process.env stores environment variables using .env package. .env file reads
 
 /**
  * ROUTES
