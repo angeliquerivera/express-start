@@ -6,9 +6,15 @@ const express = require("express");
 const app = express();
 const port = process.env.EXPRESS_PORT || 3000; //process.env stores environment variables using .env package. .env file reads
 
+app.set("view engine", "ejs");
+
 /**
- * ROUTES
+ * Sample Routes
  */
+app.get("/", (req, res) => {
+  console.log("on the index route");
+  res.render("index", { serverText: "hello from the server side" });
+});
 
 app.get("/sample", (req, res) => {
   res.status(200).send("This is a response on the /sample route");
@@ -18,9 +24,11 @@ app.get("/sample", (req, res) => {
 
 // We'll create our routes here
 const fruitsRouter = require("./routes/fruitsRouter");
+const twitterRouter = require("./routes/twitterRouter");
 
 // tell Express to apply the routes to our application
 app.use("/fruits", fruitsRouter); // mount fruitsRouter onto /fruits
+app.use("/twitter", twitterRouter);
 
 app.get("/users", (req, res) => {
   res.send("You're on the /users route.");

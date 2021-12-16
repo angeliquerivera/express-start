@@ -114,6 +114,17 @@ A template for the information stored by a database. If a library was a database
 
 ### Using parameters in routes
 
+#### What is a route parameter?
+
+- Route parameters are portions of a URL that are used to capture the values at their specified positions in the URL.
+- Example: "twitter.com/user"
+
+```js
+router.get("/:user", (req, res) => {
+  res.send(`You're looking at Twitter user ${user}.`);
+});
+```
+
 #### Single Param
 
 ##### How do you designate a route to use a single parameter?
@@ -151,3 +162,34 @@ fruitsRouter.get("/:quantity/someRoute/:fruitName", (req, res) => {
 ```
 
 ## `.param()`, parameter based middleware
+
+## Dangers of base route parameters; how they interact with routers
+
+```js
+// We'll create our routes here
+const fruitsRouter = require("./routes/fruitsRouter");
+const twitterRouter = require("./routes/twitterRouter");
+
+// tell Express to apply the routes to our application
+app.use("/fruits", fruitsRouter); // mount fruitsRouter onto /fruits
+app.use("/twitter", twitterRouter);
+
+// Fallback for non-specified routes off index route
+app.get("/:id", (req, res) => {
+  res.send(`You're looking at number ${req.params.id}!`);
+});
+```
+
+- We visited browser at `/twitter` BEFORE we designated an index route for `/twitter`.
+- Because there was no index route code set up for `/twitter/`, the express app default to the `/:id` route parameter, which sent the `You're look at number ${req.params.id} response`.
+- Then we updated `twitterRouter` with base route information, which means that when we refreshed the `/twitter/` route, we received the `/twitter/` response "To visit a Twitter user's page, just add their username as a route after /twitter."
+
+## View Engines
+
+### What is a view/template engine?
+
+- A view/template engine allows you to use static template files in your application and when the application is run, it replaces variables inside that template with actual values. It transforms the template into an HTML file that is sent to the client.
+
+### What are some view engines you can use with Express?
+
+- Pug, EJS, Handlebars, React
