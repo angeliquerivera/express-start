@@ -1,5 +1,5 @@
 const express = require("express");
-const twitterRouter = express.Router();
+const twitterRouter = express.Router(); // Router is constructor function that allows us to create new routers. Creating individual routers helps manage each route better.
 
 /**
  * Routes created here are mounted on `/twitter`
