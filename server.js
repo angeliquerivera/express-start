@@ -19,6 +19,7 @@ app.use(express.static("public"));
 /**
  * This allows us to access the body
  * The parameter is boilerplate code; allows us to avoid warning
+ * urlencoded is a built in middleware function that's part of express that parses incoming requests with urlencoded payloads (based on body-parser)
  */
 app.use(express.urlencoded({ extended: true }));
 
