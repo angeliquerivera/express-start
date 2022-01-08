@@ -193,3 +193,106 @@ app.get("/:id", (req, res) => {
 ### What are some view engines you can use with Express?
 
 - Pug, EJS, Handlebars, React
+
+### What is the difference between a static (HTML, images, fonts) file and a dynamic template file?
+
+- Static files can be rendered/presented as is
+- Dynamic files need to be processed and have their values resolved to "final" static values for static presentation.
+
+## What is middleware?
+
+- Middleware is intermediary functions that happens in the middle of a transaction between client and server.-
+- In the context of express, middleware functions are functions that have access to the request object, the response object, and the next middleware function in that applications req-res cycle.
+
+### What can middleware do?
+
+- Execute any code
+- Make changes to the request and response objects
+- End the req-res cycle
+- Call the next middleware function in the stack
+
+### What kinds of middleware can an express app use?
+
+- Application level middleware: affects the entire express app
+- Router level middleware: affects the route
+- Error handling middleware: helps handle errors
+- Built in middleware:
+  - `express.static`
+  - `express.json`
+  - `express.urlencoded`
+- Third party middleware: provides additional external functionality from other libraries
+  - `cookie-parser`
+
+### How do we use middleware in express routes?
+
+- Each middleware function, outside of error handling middleware, takes three parameters: res, req, and next
+- Each middleware function needs to invoke `next()` to proceed to the next middleware function, if it exists, or to proceed with the route functionality (stuff within the actual HTTP method, GET, POST, PUT, etc).
+- Within the HTTP method parameters, insert whatever middleware function you want inbetween the index route and the req-res parameters. Use commas to separate each parameter.
+- Parameter order matters for middleware function execution.
+
+```js
+function helloWorld(req, res, next) {
+  console.log("Hello World!");
+  next();
+}
+
+app.get("/example", helloWorld, helloWorld, (req, res) => {
+  res.send("This message renders after the `helloWorld` middleware has run");
+});
+```
+
+## Query Parameters
+
+### What is a query parameter?
+
+- A query parameter is a key-value pair in the URL that you can use to get additional data.
+
+### What are some uses of query parameters?
+
+- Some uses of query params are:
+  - Searching
+  - Sorting
+  - Filtering
+  - Pagination (finding pages)
+
+```
+http://localhost:3000/animals?page=10
+
+?page=10 // query param dictate page number for some search result
+```
+
+### How is a query param structured?
+
+- Given some route, `/users/info?name=Angie`, the route is getting the query param `name` has the value `Angie`
+
+### How do we set up/use multiple query params at once?
+
+- Use an ampersand to connect the multiple query params
+
+```
+route: /users/info?name=Angie&status=awesome
+
+ console.log(req.query.name);
+ console.log(req.query.status)
+```
+
+### Query Params vs Route Params
+
+- Route params are set specifically for the route whereas query params are values that provide extra info on what is being required for the route.
+
+```
+/animals/:animal (route parameter)
+
+/animals/mammals?page=2&sort=ASC
+
+/animals/birds?page=2&sort=ASC
+```
+
+- `req.params` and `req.query` will always be part of the request object, even if the route does not have route params nor query params.
+
+```js
+// index route: localhost:6900/, aka no route params nor query params
+
+console.log(req.params); // {}
+console.log(req.query); // {}
+```

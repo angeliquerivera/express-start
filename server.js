@@ -34,6 +34,8 @@ app.use(express.json());
  */
 app.get("/", (req, res) => {
   console.log("on the index route");
+  console.log("params", req.params);
+  console.log("query", req.query);
 
   const indexPageData = {
     serverText: "hello from the server side, index page",
@@ -58,16 +60,8 @@ app.use("/fruits", fruitsRouter); // mount fruitsRouter onto /fruits
 app.use("/twitter", twitterRouter);
 app.use("/users", usersRouter);
 
-app.get("/users", (req, res) => {
-  res.send("You're on the /users route.");
-});
-
 app.get("/:id", (req, res) => {
   res.send(`You're looking at number ${req.params.id}!`);
-});
-
-app.get("/users/:id", (req, res) => {
-  res.send(`You're looking at user number ${req.params.id}!`);
 });
 
 // app.get("/:id", (req, res) => {

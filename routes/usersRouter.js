@@ -7,6 +7,30 @@ const someUsers = [{ name: "Angie" }, { name: "Christian" }];
  * This router is mounted on `/users`
  */
 
+usersRouter.get("/", (req, res) => {
+  res.send("You're on the /users index route.");
+});
+
+usersRouter.get("/info", (req, res) => {
+  // `/users/info?name=Angie` - one query param
+  // `?name=Angie` is the query key name, with value Angie
+  // console.log(req.query.name);
+
+  // `/users/info?name=Angie&status=awesome` - multiple query params at once
+  // `?name=Angie`
+  console.log(req.query);
+  console.log(req.query.name);
+  console.log(req.query.status);
+
+  res.send(
+    `query 'name' value is: ${req.query.name}\n query 'status' value is ${req.query.status}`
+  );
+});
+
+usersRouter.get("/:id", (req, res) => {
+  res.send(`You're looking at user number ${req.params.id}!`);
+});
+
 usersRouter.get("/new", (req, res) => {
   res.render("users/new", { firstName: "default name" });
 });
@@ -51,7 +75,7 @@ function addViewToTotalCount(req, res, next) {
 }
 
 usersRouter.get(
-  "/customMiddleware",
+  "/example/customMiddleware",
   addViewToTotalCount,
   tellMeTheOriginalURL,
   (req, res) => {
